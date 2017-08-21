@@ -18,7 +18,7 @@ namespace XhElementManageTool
 			//============================================
 			String path = System.AppDomain.CurrentDomain.BaseDirectory;
 
-			OleDbConnection conn = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = "+path+ "XhElementManageLib.mdb");
+			OleDbConnection conn = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = "+ "D:\\Code\\RiderProjects\\XhElementManageTool\\XhElementManageTool\\" + "XhElementManageLib.mdb");
 
 			OleDbCommand cmd = conn.CreateCommand();
 
@@ -51,9 +51,8 @@ namespace XhElementManageTool
 			cmd.Dispose();
 			conn.Close();
 			dataGridView1.DataSource = dt;
-			
-			//===================================================
 
+			//===================================================
 
 
 		}
