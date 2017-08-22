@@ -10,7 +10,7 @@ using System.Drawing.Imaging;
 
 namespace XhElementManageTool
 {
-    public partial class ElementSelectControl : UserControl
+    public partial class ElementSelectControl : UserControl 
     {
         //公用的控件
         private OleDbConnection _conn;
@@ -22,20 +22,11 @@ namespace XhElementManageTool
         //这是用来公用的，其他的外部方法也是可以用的
         public List<List<string>> _selectList = new List<List<string>>();
 
-		//元件的结构体
-		public struct Element
-		{
-			private string mName;
-			private string mModel;
-
-		}
-
         public ElementSelectControl()
         {
             InitializeComponent();
 
             Init();
-
 		}
 
         //初始化
@@ -61,9 +52,8 @@ namespace XhElementManageTool
                 _cmd.CommandText = "select " + o + " from Element group by " + o;
                 _conn.Open();
                 var dr = _cmd.ExecuteReader();
-                var list = new List<string>();
-                list.Add("全部");
-                while (dr != null && dr.Read())
+	            var list = new List<string> {"全部"};
+	            while (dr != null && dr.Read())
                 {
                     list.Add((string) dr[0]);
                 }
@@ -124,32 +114,12 @@ namespace XhElementManageTool
         }
 
         
-        //加载的时候会执行两次，直接不管了
+        //加载的时候会执行两次，不知道为什么，不管了
 		private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
 		{
-
 			if (dataGridView_select.SelectedCells.Count == 0) return;
-			//获取型号名字
-			var eName = dataGridView_select.SelectedCells[0].Value.ToString();
-			if (_conn.State == ConnectionState.Open) _conn.Close();
-		    _cmd = _conn.CreateCommand();
-		    _cmd.CommandText = "select * from Element where eName = '" + eName + "'";
-		    _conn.Open();
-		    var dr = _cmd.ExecuteReader();
-		    if (!dr.HasRows)
-		    {
-		        MessageBox.Show("异常，未找到名称为 " + eName + " 项");
-		        
-		    }
-		    else
-		    {
-				dr.Read ();
-
-				label1.Text= dr["eNo"].ToString();
-		    }
-		    _cmd.Dispose();
-		    _conn.Close();
-
+		    //课题 如何用户控件访问from的非静态方法。
+			Form1.SelectionChanged(dataGridView_select.SelectedCells[0].Value.ToString());
 		}
 	}
 }

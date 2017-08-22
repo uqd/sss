@@ -48,6 +48,7 @@
     <Compile Include="ElementSelectControl.Designer.cs">
       <DependentUpon>ElementSelectControl.cs</DependentUpon>
     </Compile>
+      <Compile Include="ElementStruct.cs"/>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

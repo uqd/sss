@@ -10,24 +10,23 @@ using System.Windows.Forms;
 namespace XhElementManageTool
 {
 	
-	public partial class Form1 : Form
+	public partial class Form1 : Form 
 	{
-		private OleDbConnection conn;
+		private OleDbConnection _conn;
 
 		public Form1()
 		{
 			InitializeComponent();
 
 			//============================================
-			String path = System.AppDomain.CurrentDomain.BaseDirectory;
 
-			conn = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = "+path+ "XhElementManageLib.mdb");
+			_conn = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = D:\\Code\\Rider\\XhElementManageTool\\XhElementManageTool\\XhElementManageLib.mdb");
 
-			OleDbCommand cmd = conn.CreateCommand();
+			OleDbCommand cmd = _conn.CreateCommand();
 
 			cmd.CommandText = "select * from Element";
 
-			conn.Open();
+			_conn.Open();
 
 			OleDbDataReader dr = cmd.ExecuteReader();
 
@@ -52,7 +51,7 @@ namespace XhElementManageTool
 				dt.Rows.Add(row);
 			}
 			cmd.Dispose();
-			conn.Close();
+			_conn.Close();
 			dataGridView1.DataSource = dt;
 			
 			//===================================================
@@ -89,6 +88,11 @@ namespace XhElementManageTool
 			tb_createDate.Text = "";
 			tb_modifyDate.Text = "";
 
+			SetComboBoxValue();
+		}
+
+		private void SetComboBoxValue()
+		{
 			var data = elementSelectControl1._selectList;
 			data[0].Remove("全部");
 			data[1].Remove("全部");
@@ -96,6 +100,44 @@ namespace XhElementManageTool
 			cb_type.DataSource = data[0];
 			cb_facturer.DataSource = data[1];
 			cb_position.DataSource = data[2];
+		}
+
+		public static void UpdateData(ElementStruct.Element element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SelectionChanged(string eName)
+		{
+			if (_conn.State == ConnectionState.Open) _conn.Close();
+			var _cmd = _conn.CreateCommand();
+			_cmd.CommandText = "select * from Element where eName = '" + eName + "'";
+			_conn.Open();
+			var dr = _cmd.ExecuteReader();
+			if (!dr.HasRows)
+			{
+				MessageBox.Show("异常，未找到名称为 " + eName + " 项");
+			}
+			else
+			{
+				dr.Read ();
+
+				tb_No.Text = dr["eNo"].ToString();
+					dr["eName"].ToString(),
+					dr["eType"].ToString(),
+					dr["eFacturer"].ToString(),
+					dr["eModel"].ToString(),
+					dr["ePackage"].ToString(),
+					(int)dr["ePrice"],
+					(int)dr["eCount"],
+					dr["eCreateDate"].ToString(),
+					dr["eModifyDate"].ToString(),
+					dr["ePosition"].ToString(),
+					dr["eOtherInfo"].ToString()
+
+			}
+			_cmd.Dispose();
+			_conn.Close();
 		}
 	}
 }
