@@ -46,6 +46,7 @@
 			this.dataGridView_select.AllowUserToAddRows = false;
 			this.dataGridView_select.AllowUserToDeleteRows = false;
 			this.dataGridView_select.AllowUserToOrderColumns = true;
+			this.dataGridView_select.AllowUserToResizeRows = false;
 			this.dataGridView_select.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView_select.Location = new System.Drawing.Point(3, 82);
 			this.dataGridView_select.Name = "dataGridView_select";
@@ -53,14 +54,14 @@
 			this.dataGridView_select.RowHeadersVisible = false;
 			this.dataGridView_select.RowTemplate.Height = 23;
 			this.dataGridView_select.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView_select.Size = new System.Drawing.Size(219, 243);
+			this.dataGridView_select.Size = new System.Drawing.Size(235, 243);
 			this.dataGridView_select.TabIndex = 36;
 			this.dataGridView_select.SelectionChanged += new System.EventHandler(this.dataGridView_select_SelectionChanged);
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(67, 60);
+			this.label2.Location = new System.Drawing.Point(74, 60);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(29, 12);
 			this.label2.TabIndex = 35;
@@ -70,7 +71,7 @@
 			// 
 			this.cb_position.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cb_position.FormattingEnabled = true;
-			this.cb_position.Location = new System.Drawing.Point(107, 57);
+			this.cb_position.Location = new System.Drawing.Point(114, 57);
 			this.cb_position.Name = "cb_position";
 			this.cb_position.Size = new System.Drawing.Size(115, 20);
 			this.cb_position.TabIndex = 34;
@@ -79,7 +80,7 @@
 			// l_facturer
 			// 
 			this.l_facturer.AutoSize = true;
-			this.l_facturer.Location = new System.Drawing.Point(67, 33);
+			this.l_facturer.Location = new System.Drawing.Point(74, 33);
 			this.l_facturer.Name = "l_facturer";
 			this.l_facturer.Size = new System.Drawing.Size(29, 12);
 			this.l_facturer.TabIndex = 33;
@@ -89,7 +90,7 @@
 			// 
 			this.cb_facturer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cb_facturer.FormattingEnabled = true;
-			this.cb_facturer.Location = new System.Drawing.Point(107, 30);
+			this.cb_facturer.Location = new System.Drawing.Point(114, 30);
 			this.cb_facturer.Name = "cb_facturer";
 			this.cb_facturer.Size = new System.Drawing.Size(115, 20);
 			this.cb_facturer.TabIndex = 32;
@@ -98,7 +99,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(67, 6);
+			this.label1.Location = new System.Drawing.Point(74, 6);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(29, 12);
 			this.label1.TabIndex = 31;
@@ -108,7 +109,7 @@
 			// 
 			this.cb_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cb_type.FormattingEnabled = true;
-			this.cb_type.Location = new System.Drawing.Point(107, 3);
+			this.cb_type.Location = new System.Drawing.Point(114, 3);
 			this.cb_type.Name = "cb_type";
 			this.cb_type.Size = new System.Drawing.Size(115, 20);
 			this.cb_type.TabIndex = 30;
@@ -117,7 +118,7 @@
 			// cb_package
 			// 
 			this.cb_package.AutoSize = true;
-			this.cb_package.Location = new System.Drawing.Point(3, 59);
+			this.cb_package.Location = new System.Drawing.Point(13, 59);
 			this.cb_package.Name = "cb_package";
 			this.cb_package.Size = new System.Drawing.Size(48, 16);
 			this.cb_package.TabIndex = 29;
@@ -128,7 +129,7 @@
 			// cb_model
 			// 
 			this.cb_model.AutoSize = true;
-			this.cb_model.Location = new System.Drawing.Point(3, 32);
+			this.cb_model.Location = new System.Drawing.Point(13, 32);
 			this.cb_model.Name = "cb_model";
 			this.cb_model.Size = new System.Drawing.Size(48, 16);
 			this.cb_model.TabIndex = 28;
@@ -139,7 +140,7 @@
 			// cb_No
 			// 
 			this.cb_No.AutoSize = true;
-			this.cb_No.Location = new System.Drawing.Point(3, 5);
+			this.cb_No.Location = new System.Drawing.Point(13, 5);
 			this.cb_No.Name = "cb_No";
 			this.cb_No.Size = new System.Drawing.Size(48, 16);
 			this.cb_No.TabIndex = 27;
@@ -162,7 +163,7 @@
 			this.Controls.Add(this.cb_model);
 			this.Controls.Add(this.cb_No);
 			this.Name = "ElementSelectControl";
-			this.Size = new System.Drawing.Size(225, 328);
+			this.Size = new System.Drawing.Size(242, 328);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView_select)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

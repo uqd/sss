@@ -106,13 +106,16 @@ namespace XhElementManageTool
             //这就是删除，弹出删除框。
             var result = MessageBox.Show("你确定要删除元件 '" + eName + "' 吗?", "删除", MessageBoxButtons.OKCancel);
             if ((int) result != 1) return;
-            var sqlStr = "delect from Element where eName = '" + eName + "'"; 
+            var sqlStr = "delete from Element where eName = '" + eName + "'"; 
             var cmd = new OleDbCommand(sqlStr, _conn);
+            _conn.Open();
             cmd.ExecuteNonQuery();
             MessageBox.Show("删除成功");
 
             //需要刷新界面
             elementSelectControl1.SelectSettingChange(null, null);
+            cmd.Dispose();
+            _conn.Close();
         }
 
         private void SaveElement()
@@ -125,6 +128,7 @@ namespace XhElementManageTool
                 MessageBox.Show("元件名称是必需填写的！");
                 return;
             }
+            
             //我们需要在数据库中查找是否有相应的eName
             //来确定这是新增一个元件还是修改一个元件的信息
             var com = _conn.CreateCommand();
@@ -202,7 +206,7 @@ namespace XhElementManageTool
                                  + "eCount="
                                  + "" + tb_count.Text + ","
                                  + "eModifyDate="
-                                 + "'" + tb_modifyDate.Text + "',"
+                                 + "'" + DateTime.Now.ToString() + "',"
                                  + "eOtherInfo="
                                  + "'" + tb_otherInfo.Text + "'"
                                  + " where eName = '" + eName + "'";
@@ -224,11 +228,12 @@ namespace XhElementManageTool
             tb_Name.Text = "";
             tb_model.Text = "";
             tb_package.Text = "";
-            tb_price.Text = "";
-            tb_count.Text = "";
+            tb_price.Text = "0";
+            tb_count.Text = "0";
             tb_otherInfo.Text = "";
-            tb_createDate.Text = "";
-            tb_modifyDate.Text = "";
+			var now = DateTime.Now;
+			tb_createDate.Text = now.ToString();
+            tb_modifyDate.Text = now.ToString();
 
             SetComboBoxValue();
         }
@@ -243,5 +248,33 @@ namespace XhElementManageTool
             cb_facturer.DataSource = data[1];
             cb_position.DataSource = data[2];
         }
-    }
+
+		//限制输入的只能为数字和小数点
+		private void tb_price_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			//判断按键是不是要输入的类型
+
+			//如果输入的不是数字并且也不是“.”或者 “《--”退格键 或者 "del"键,那么拦截操作，不向下传递
+			if (((int)e.KeyChar < 48 || (int)e.KeyChar > 57) 
+				&& (int)e.KeyChar != 8 && (int)e.KeyChar != 46&&(int)e.KeyChar!=127)
+				e.Handled = true;
+
+			//
+			if ((int)e.KeyChar == 46)
+			{
+				if (tb_price.Text.Length <= 0) e.Handled = true;	//小数点不能在第一位
+			}
+		}
+
+		//限制输入的只能为数字，小数点都不能有
+		private void tb_count_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			//判断按键是不是要输入的类型
+
+			//如果输入的不是数字并且也不是“.”或者 “《--”退格键 或者 "del"键,那么拦截操作，不向下传递
+			if (((int)e.KeyChar < 48 || (int)e.KeyChar > 57)
+				&& (int)e.KeyChar != 8  && (int)e.KeyChar != 127)
+				e.Handled = true;
+		}
+	}
 }
