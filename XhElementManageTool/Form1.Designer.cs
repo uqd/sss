@@ -32,6 +32,12 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tb_modifyDate = new System.Windows.Forms.TextBox();
+			this.tb_createDate = new System.Windows.Forms.TextBox();
+			this.btn_save = new System.Windows.Forms.Button();
+			this.btn_reback = new System.Windows.Forms.Button();
+			this.btn_delect = new System.Windows.Forms.Button();
+			this.btn_add = new System.Windows.Forms.Button();
 			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl();
 			this.cb_position = new System.Windows.Forms.ComboBox();
 			this.cb_facturer = new System.Windows.Forms.ComboBox();
@@ -57,12 +63,6 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.btn_add = new System.Windows.Forms.Button();
-			this.btn_delect = new System.Windows.Forms.Button();
-			this.btn_reback = new System.Windows.Forms.Button();
-			this.btn_save = new System.Windows.Forms.Button();
-			this.tb_createDate = new System.Windows.Forms.TextBox();
-			this.tb_modifyDate = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -81,7 +81,7 @@
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.ReadOnly = true;
 			this.dataGridView1.RowTemplate.Height = 23;
-			this.dataGridView1.Size = new System.Drawing.Size(494, 341);
+			this.dataGridView1.Size = new System.Drawing.Size(491, 338);
 			this.dataGridView1.TabIndex = 0;
 			// 
 			// groupBox1
@@ -90,7 +90,7 @@
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(500, 361);
+			this.groupBox1.Size = new System.Drawing.Size(497, 358);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "groupBox1";
@@ -104,7 +104,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(514, 393);
+			this.tabControl1.Size = new System.Drawing.Size(511, 390);
 			this.tabControl1.TabIndex = 2;
 			// 
 			// tabPage1
@@ -141,10 +141,66 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(506, 367);
+			this.tabPage1.Size = new System.Drawing.Size(503, 364);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "元件库";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// tb_modifyDate
+			// 
+			this.tb_modifyDate.Enabled = false;
+			this.tb_modifyDate.Location = new System.Drawing.Point(342, 305);
+			this.tb_modifyDate.Name = "tb_modifyDate";
+			this.tb_modifyDate.Size = new System.Drawing.Size(154, 21);
+			this.tb_modifyDate.TabIndex = 47;
+			// 
+			// tb_createDate
+			// 
+			this.tb_createDate.Enabled = false;
+			this.tb_createDate.Location = new System.Drawing.Point(342, 278);
+			this.tb_createDate.Name = "tb_createDate";
+			this.tb_createDate.Size = new System.Drawing.Size(154, 21);
+			this.tb_createDate.TabIndex = 46;
+			// 
+			// btn_save
+			// 
+			this.btn_save.Location = new System.Drawing.Point(395, 335);
+			this.btn_save.Name = "btn_save";
+			this.btn_save.Size = new System.Drawing.Size(101, 23);
+			this.btn_save.TabIndex = 45;
+			this.btn_save.Text = "保存";
+			this.btn_save.UseVisualStyleBackColor = true;
+			this.btn_save.Click += new System.EventHandler(this.Btn_Click);
+			// 
+			// btn_reback
+			// 
+			this.btn_reback.Location = new System.Drawing.Point(261, 335);
+			this.btn_reback.Name = "btn_reback";
+			this.btn_reback.Size = new System.Drawing.Size(101, 23);
+			this.btn_reback.TabIndex = 44;
+			this.btn_reback.Text = "重置";
+			this.btn_reback.UseVisualStyleBackColor = true;
+			this.btn_reback.Click += new System.EventHandler(this.Btn_Click);
+			// 
+			// btn_delect
+			// 
+			this.btn_delect.Location = new System.Drawing.Point(128, 335);
+			this.btn_delect.Name = "btn_delete";
+			this.btn_delect.Size = new System.Drawing.Size(101, 23);
+			this.btn_delect.TabIndex = 43;
+			this.btn_delect.Text = "删除";
+			this.btn_delect.UseVisualStyleBackColor = true;
+			this.btn_delect.Click += new System.EventHandler(this.Btn_Click);
+			// 
+			// btn_add
+			// 
+			this.btn_add.Location = new System.Drawing.Point(8, 335);
+			this.btn_add.Name = "btn_add";
+			this.btn_add.Size = new System.Drawing.Size(101, 23);
+			this.btn_add.TabIndex = 42;
+			this.btn_add.Text = "新增";
+			this.btn_add.UseVisualStyleBackColor = true;
+			this.btn_add.Click += new System.EventHandler(this.Btn_Click);
 			// 
 			// elementSelectControl1
 			// 
@@ -340,7 +396,7 @@
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(506, 367);
+			this.tabPage2.Size = new System.Drawing.Size(503, 364);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "元件库-列表";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -349,69 +405,16 @@
 			// 
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(506, 367);
+			this.tabPage3.Size = new System.Drawing.Size(503, 364);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "PCB板";
 			this.tabPage3.UseVisualStyleBackColor = true;
-			// 
-			// btn_add
-			// 
-			this.btn_add.Location = new System.Drawing.Point(8, 335);
-			this.btn_add.Name = "btn_add";
-			this.btn_add.Size = new System.Drawing.Size(101, 23);
-			this.btn_add.TabIndex = 42;
-			this.btn_add.Text = "新增";
-			this.btn_add.UseVisualStyleBackColor = true;
-			this.btn_add.Click += new System.EventHandler(this.Btn_Click);
-			// 
-			// btn_delect
-			// 
-			this.btn_delect.Location = new System.Drawing.Point(128, 335);
-			this.btn_delect.Name = "btn_delect";
-			this.btn_delect.Size = new System.Drawing.Size(101, 23);
-			this.btn_delect.TabIndex = 43;
-			this.btn_delect.Text = "删除";
-			this.btn_delect.UseVisualStyleBackColor = true;
-			// 
-			// btn_reback
-			// 
-			this.btn_reback.Location = new System.Drawing.Point(261, 335);
-			this.btn_reback.Name = "btn_reback";
-			this.btn_reback.Size = new System.Drawing.Size(101, 23);
-			this.btn_reback.TabIndex = 44;
-			this.btn_reback.Text = "重置";
-			this.btn_reback.UseVisualStyleBackColor = true;
-			// 
-			// btn_save
-			// 
-			this.btn_save.Location = new System.Drawing.Point(395, 335);
-			this.btn_save.Name = "btn_save";
-			this.btn_save.Size = new System.Drawing.Size(101, 23);
-			this.btn_save.TabIndex = 45;
-			this.btn_save.Text = "保存";
-			this.btn_save.UseVisualStyleBackColor = true;
-			// 
-			// tb_createDate
-			// 
-			this.tb_createDate.Enabled = false;
-			this.tb_createDate.Location = new System.Drawing.Point(342, 278);
-			this.tb_createDate.Name = "tb_createDate";
-			this.tb_createDate.Size = new System.Drawing.Size(154, 21);
-			this.tb_createDate.TabIndex = 46;
-			// 
-			// tb_modifyDate
-			// 
-			this.tb_modifyDate.Enabled = false;
-			this.tb_modifyDate.Location = new System.Drawing.Point(342, 305);
-			this.tb_modifyDate.Name = "tb_modifyDate";
-			this.tb_modifyDate.Size = new System.Drawing.Size(154, 21);
-			this.tb_modifyDate.TabIndex = 47;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(514, 393);
+			this.ClientSize = new System.Drawing.Size(511, 390);
 			this.Controls.Add(this.tabControl1);
 			this.Name = "Form1";
 			this.Text = "Form1";

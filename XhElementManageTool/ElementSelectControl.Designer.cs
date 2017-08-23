@@ -31,7 +31,7 @@
 			this.dataGridView_select = new System.Windows.Forms.DataGridView();
 			this.label2 = new System.Windows.Forms.Label();
 			this.cb_position = new System.Windows.Forms.ComboBox();
-			this.厂商 = new System.Windows.Forms.Label();
+			this.l_facturer = new System.Windows.Forms.Label();
 			this.cb_facturer = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.cb_type = new System.Windows.Forms.ComboBox();
@@ -76,14 +76,14 @@
 			this.cb_position.TabIndex = 34;
 			this.cb_position.SelectedValueChanged += new System.EventHandler(this.SelectSettingChange);
 			// 
-			// 厂商
+			// l_facturer
 			// 
-			this.厂商.AutoSize = true;
-			this.厂商.Location = new System.Drawing.Point(67, 33);
-			this.厂商.Name = "厂商";
-			this.厂商.Size = new System.Drawing.Size(29, 12);
-			this.厂商.TabIndex = 33;
-			this.厂商.Text = "厂商";
+			this.l_facturer.AutoSize = true;
+			this.l_facturer.Location = new System.Drawing.Point(67, 33);
+			this.l_facturer.Name = "l_facturer";
+			this.l_facturer.Size = new System.Drawing.Size(29, 12);
+			this.l_facturer.TabIndex = 33;
+			this.l_facturer.Text = "厂商";
 			// 
 			// cb_facturer
 			// 
@@ -154,7 +154,7 @@
 			this.Controls.Add(this.dataGridView_select);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.cb_position);
-			this.Controls.Add(this.厂商);
+			this.Controls.Add(this.l_facturer);
 			this.Controls.Add(this.cb_facturer);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.cb_type);
@@ -174,7 +174,7 @@
 		private System.Windows.Forms.DataGridView dataGridView_select;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.ComboBox cb_position;
-		private System.Windows.Forms.Label 厂商;
+		private System.Windows.Forms.Label l_facturer;
 		private System.Windows.Forms.ComboBox cb_facturer;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox cb_type;

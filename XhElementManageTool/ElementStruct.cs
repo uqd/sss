@@ -1,4 +1,6 @@
-﻿namespace XhElementManageTool
+﻿using System;
+
+namespace XhElementManageTool
 {
     public class ElementStruct
     {
@@ -11,14 +13,14 @@
             public string eFacturer{ get; set; }
             public string eModel{ get; set; }
             public string ePackage{ get; set; }
-            public int ePrice{ get; set; }
-            public int eCount{ get; set; }
+            public string  ePrice{ get; set; }
+            public string eCount{ get; set; }
             public string eCreateDate{ get; set; }
             public string eModifDate{ get; set; }
             public string ePosition{ get; set; }
             public string eOtherInfo{ get; set; }
 
-            public Element(string eNo, string eName, string eType, string eFacturer, string eModel, string ePackage, int ePrice, int eCount, string eCreateDate, string eModifDate, string ePosition, string eOtherInfo)
+            public Element(string eNo, string eName, string eType, string eFacturer, string eModel, string ePackage, string ePrice, string eCount, string eCreateDate, string eModifDate, string ePosition, string eOtherInfo)
             {
                 this.eNo = eNo;
                 this.eName = eName;

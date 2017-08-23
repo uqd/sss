@@ -6,11 +6,13 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Imaging;
+using System.Reflection;
 
 namespace XhElementManageTool
 {
-    public partial class ElementSelectControl : UserControl 
+    public partial class ElementSelectControl : UserControl
     {
         //公用的控件
         private OleDbConnection _conn;
@@ -21,13 +23,18 @@ namespace XhElementManageTool
 
         //这是用来公用的，其他的外部方法也是可以用的
         public List<List<string>> _selectList = new List<List<string>>();
+        
+        //申明一个委托
+        public delegate void SelectValueChangeHandler(ElementStruct.Element element);
+        //同时申明一个事件
+        public event SelectValueChangeHandler SelectChange;
 
         public ElementSelectControl()
         {
             InitializeComponent();
 
             Init();
-		}
+        }
 
         //初始化
         private void Init()
@@ -52,8 +59,8 @@ namespace XhElementManageTool
                 _cmd.CommandText = "select " + o + " from Element group by " + o;
                 _conn.Open();
                 var dr = _cmd.ExecuteReader();
-	            var list = new List<string> {"全部"};
-	            while (dr != null && dr.Read())
+                var list = new List<string> {"全部"};
+                while (dr != null && dr.Read())
                 {
                     list.Add((string) dr[0]);
                 }
@@ -66,7 +73,7 @@ namespace XhElementManageTool
             cb_position.DataSource = _selectList[2];
         }
 
-        private void SelectSettingChange(object sender, EventArgs e)
+        public void SelectSettingChange(object sender, EventArgs e)
         {
             if (isReay == false) return;
 
@@ -79,7 +86,6 @@ namespace XhElementManageTool
 
             var strSqlWhere = " where eType like " + strType + " and eFacturer like " + strfacturer +
                               " and ePosition like " + strPosition;
-
 
             _cmd = _conn.CreateCommand();
             _cmd.CommandText = "select eName " + strNo + strModel + strPackage + " from Element " + strSqlWhere;
@@ -113,13 +119,45 @@ namespace XhElementManageTool
             dataGridView_select.DataSource = dt;
         }
 
-        
+
         //加载的时候会执行两次，不知道为什么，不管了
-		private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
-		{
-			if (dataGridView_select.SelectedCells.Count == 0) return;
-		    //课题 如何用户控件访问from的非静态方法。
-			Form1.SelectionChanged(dataGridView_select.SelectedCells[0].Value.ToString());
-		}
-	}
+        private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView_select.SelectedCells.Count == 0) return;
+            //获取型号名字
+            var eName = dataGridView_select.SelectedCells[0].Value.ToString();
+            if (_conn.State == ConnectionState.Open) _conn.Close();
+            _cmd = _conn.CreateCommand();
+            _cmd.CommandText = "select * from Element where eName = '" + eName + "'";
+            _conn.Open();
+            var dr = _cmd.ExecuteReader();
+            if (dr == null) return;
+            if (!dr.HasRows)
+            {
+                MessageBox.Show("异常，未找到名称为 " + eName + " 项");
+            }
+            else
+            {
+                dr.Read();
+				var element = new ElementStruct.Element(
+                    dr["eNo"].ToString(),
+                    dr["eName"].ToString(),
+                    dr["eType"].ToString(),
+                    dr["eFacturer"].ToString(),
+                    dr["eModel"].ToString(),
+                    dr["ePackage"].ToString(),
+                    dr["ePrice"].ToString(),
+                    dr["eCount"].ToString(),
+                    dr["eCreateDate"].ToString(),
+                    dr["eModifyDate"].ToString(),
+                    dr["ePosition"].ToString(),
+                    dr["eOtherInfo"].ToString()
+                );
+                //反正就是把element传出去了
+                SelectChange?.Invoke(element);
+            }
+            _cmd.Dispose();
+            _conn.Close();
+        }
+    }
 }
