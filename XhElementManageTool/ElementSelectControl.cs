@@ -73,7 +73,13 @@ namespace XhElementManageTool
             cb_position.DataSource = _selectList[2];
         }
 
-        public void SelectSettingChange(object sender, EventArgs e)
+		//外部提示更新控件
+		public void UpdateValue()
+		{
+			SelectSettingChange(null, null);
+		}
+
+        private void SelectSettingChange(object sender, EventArgs e)
         {
             if (isReay == false) return;
 
