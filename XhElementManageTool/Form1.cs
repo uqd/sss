@@ -17,16 +17,41 @@ namespace XhElementManageTool
         {
             InitializeComponent();
 
-            //绑定委托与事件
+            //绑定委托与事件,也就是同时更新Tab1中的Element数据
             elementSelectControl1.SelectChange += SelectValueChange;
 
-            //TODO 
+            //TODO
             //还有小元件中的委托没有写
 
+            //这是啥啊
+            WhatIsThis();
+
+            UpDatePcbBox();
+        }
+
+		//向pcb的元件列表中添加新的元件
+		internal void AddEleMentToPCB(string selectElementName)
+		{
+			if (selectElementName == "") return;
+		    var pName = lb_pcb.SelectedItem.ToString();
+		    var eName = selectElementName;
+            _conn.Open();
+		    var cmd = _conn.CreateCommand();
+		    cmd.CommandText = " insert into " + pName + " (eName ,eWeihao,eCount) "
+		                      + "values( '" + eName + "', '请输入',0)";
+		    cmd.ExecuteNonQuery();
+		    cmd.Dispose();
+		    _conn.Close();
+		    UpDatePcbElementPanel();
+		}
+
+		private void WhatIsThis()
+        {
             //============================================
 
             _conn = new OleDbConnection(
-                "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = D:\\Code\\Rider\\XhElementManageTool\\XhElementManageTool\\XhElementManageLib.mdb");
+                "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = "
+                + "D:\\Code\\Rider\\XhElementManageTool\\XhElementManageTool\\XhElementManageLib.mdb");
 
             OleDbCommand cmd = _conn.CreateCommand();
 
@@ -61,8 +86,6 @@ namespace XhElementManageTool
             dataGridView1.DataSource = dt;
 
             //===================================================
-
-            UpDatePcbBox();
         }
 
         private void SelectValueChange(ElementStruct.Element element)
@@ -246,7 +269,7 @@ namespace XhElementManageTool
 
         private void SetComboBoxValue()
         {
-            var data = elementSelectControl1._selectList;
+            var data = elementSelectControl1.SelectList;
             data[0].Remove("全部");
             data[1].Remove("全部");
             data[2].Remove("全部");
@@ -309,14 +332,74 @@ namespace XhElementManageTool
             if (!dr.HasRows) return;
             while (dr.Read())
             {
-                tables.Add((string)dr[0]);
+                tables.Add((string) dr[0]);
             }
             lb_pcb.DataSource = tables;
             _conn.Close();
         }
 
+        //删除pcb板子
         private void btn_pcb_delete_Click(object sender, EventArgs e)
         {
+            if (lb_pcb.Items.Count == 0) return;
+            //获取此时pcbsList中的所选项
+            var pName = (string) lb_pcb.SelectedValue;
+            var result = MessageBox.Show("你确定要删除名为 '" + pName + "' 的PCB数据吗?", "删除PCB", MessageBoxButtons.OKCancel);
+            if ((int) result != 1) return;
+            _conn.Open();
+            //删除PCBs中的数据
+            var cmd = _conn.CreateCommand();
+            cmd.CommandText = "delete from PCBs where pName = '" + pName + "'";
+            cmd.ExecuteNonQuery();
+            //删除表
+            cmd = _conn.CreateCommand();
+            cmd.CommandText = "drop Table " + pName + "";
+            cmd.ExecuteNonQuery();
+            _conn.Close();
+            MessageBox.Show("删除成功");
+            UpDatePcbBox();
         }
-    }
+
+        private void UpDatePcbElementPanel()
+        {
+            lb_pcb_SelectedValueChanged(null, null);
+        }
+
+        private void lb_pcb_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var s = 0;
+            Console.Out.WriteLine("第三页 :" + s);
+
+            //获得当前选中的pName
+            var pName = lb_pcb.SelectedItem.ToString();
+            //查找表数据
+            if(_conn.State==ConnectionState.Closed)_conn.Open();
+            var cmd = _conn.CreateCommand();
+            cmd.CommandText = "select * from " + pName;
+            var dr = cmd.ExecuteReader();
+            if (!dr.HasRows) {_conn.Close();return;}
+            p_pcbEle.Controls.Clear();
+            while (dr.Read())
+            {
+                //构造新的PCBElementControl
+                var pe = new PCBElementControl(
+                    dr["eName"].ToString(),
+                dr["eWeihao"].ToString(),
+                dr["eCount"].ToString())
+                {
+                    Name = "pe" + s,
+                    Location = new Point(0, 30 * s)
+                };
+                s++;
+                p_pcbEle.Controls.Add(pe);
+            }
+            _conn.Close();
+        }
+
+		private void btn_pcbAddElement_Click(object sender, EventArgs e)
+		{
+			SelectPcbElement spe = new SelectPcbElement(this);
+			spe.ShowDialog();
+		}
+	}
 }

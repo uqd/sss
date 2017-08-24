@@ -22,12 +22,15 @@ namespace XhElementManageTool
         private bool isReay = false;
 
         //这是用来公用的，其他的外部方法也是可以用的
-        public List<List<string>> _selectList = new List<List<string>>();
+        public List<List<string>> SelectList = new List<List<string>>();
         
         //申明一个委托
         public delegate void SelectValueChangeHandler(ElementStruct.Element element);
         //同时申明一个事件
         public event SelectValueChangeHandler SelectChange;
+
+		//可调用的被选择元件名字
+		public string SelectElementName = "";
 
         public ElementSelectControl()
         {
@@ -64,13 +67,13 @@ namespace XhElementManageTool
                 {
                     list.Add((string) dr[0]);
                 }
-                _selectList.Add(list);
+                SelectList.Add(list);
                 _cmd.Dispose();
                 _conn.Close();
             }
-            cb_type.DataSource = _selectList[0];
-            cb_facturer.DataSource = _selectList[1];
-            cb_position.DataSource = _selectList[2];
+            cb_type.DataSource = SelectList[0];
+            cb_facturer.DataSource = SelectList[1];
+            cb_position.DataSource = SelectList[2];
         }
 
 		//外部提示更新控件
@@ -125,13 +128,18 @@ namespace XhElementManageTool
             dataGridView_select.DataSource = dt;
         }
 
+		int k = 0;
 
-        //加载的时候会执行两次，不知道为什么，不管了
-        private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
+		//加载的时候会执行两次，不知道为什么，不管了
+		private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
         {
+			k++;
+			Console.Out.WriteLine("第一页: " + k);
+
             if (dataGridView_select.SelectedCells.Count == 0) return;
             //获取型号名字
             var eName = dataGridView_select.SelectedCells[0].Value.ToString();
+			SelectElementName = eName;
             if (_conn.State == ConnectionState.Open) _conn.Close();
             _cmd = _conn.CreateCommand();
             _cmd.CommandText = "select * from Element where eName = '" + eName + "'";

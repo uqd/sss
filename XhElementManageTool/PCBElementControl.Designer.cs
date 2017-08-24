@@ -37,21 +37,22 @@
 			// 
 			// tb_name
 			// 
+			this.tb_name.Enabled = false;
 			this.tb_name.Location = new System.Drawing.Point(4, 4);
 			this.tb_name.Name = "tb_name";
-			this.tb_name.Size = new System.Drawing.Size(175, 21);
+			this.tb_name.Size = new System.Drawing.Size(155, 21);
 			this.tb_name.TabIndex = 0;
 			// 
 			// tb_weihao
 			// 
-			this.tb_weihao.Location = new System.Drawing.Point(185, 3);
+			this.tb_weihao.Location = new System.Drawing.Point(164, 4);
 			this.tb_weihao.Name = "tb_weihao";
 			this.tb_weihao.Size = new System.Drawing.Size(40, 21);
 			this.tb_weihao.TabIndex = 1;
 			// 
 			// tb_count
 			// 
-			this.tb_count.Location = new System.Drawing.Point(231, 3);
+			this.tb_count.Location = new System.Drawing.Point(210, 4);
 			this.tb_count.Name = "tb_count";
 			this.tb_count.Size = new System.Drawing.Size(40, 21);
 			this.tb_count.TabIndex = 2;
@@ -59,7 +60,7 @@
 			// 
 			// btn_delete
 			// 
-			this.btn_delete.Location = new System.Drawing.Point(306, 2);
+			this.btn_delete.Location = new System.Drawing.Point(285, 3);
 			this.btn_delete.Name = "btn_delete";
 			this.btn_delete.Size = new System.Drawing.Size(23, 23);
 			this.btn_delete.TabIndex = 3;
@@ -69,7 +70,7 @@
 			// 
 			// btn_switch
 			// 
-			this.btn_switch.Location = new System.Drawing.Point(277, 2);
+			this.btn_switch.Location = new System.Drawing.Point(256, 3);
 			this.btn_switch.Name = "btn_switch";
 			this.btn_switch.Size = new System.Drawing.Size(23, 23);
 			this.btn_switch.TabIndex = 4;
@@ -87,7 +88,7 @@
 			this.Controls.Add(this.tb_weihao);
 			this.Controls.Add(this.tb_name);
 			this.Name = "PCBElementControl";
-			this.Size = new System.Drawing.Size(332, 27);
+			this.Size = new System.Drawing.Size(311, 27);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

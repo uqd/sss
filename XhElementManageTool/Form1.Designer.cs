@@ -35,6 +35,7 @@
 			this.btn_save = new System.Windows.Forms.Button();
 			this.btn_delete = new System.Windows.Forms.Button();
 			this.btn_add = new System.Windows.Forms.Button();
+			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.tb_modifyDate = new System.Windows.Forms.TextBox();
 			this.tb_No = new System.Windows.Forms.TextBox();
@@ -62,14 +63,13 @@
 			this.tb_Name = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.btn_pcbAddElement = new System.Windows.Forms.Button();
+			this.p_pcbEle = new System.Windows.Forms.Panel();
 			this.btn_pcb_output = new System.Windows.Forms.Button();
 			this.btn_pcb_input = new System.Windows.Forms.Button();
 			this.btn_pcb_delete = new System.Windows.Forms.Button();
 			this.btn_pcb_add = new System.Windows.Forms.Button();
 			this.lb_pcb = new System.Windows.Forms.ListBox();
-			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl();
-			this.pcbElementControl1 = new XhElementManageTool.PCBElementControl();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -161,6 +161,13 @@
 			this.btn_add.Text = "新增";
 			this.btn_add.UseVisualStyleBackColor = true;
 			this.btn_add.Click += new System.EventHandler(this.Btn_Click);
+			// 
+			// elementSelectControl1
+			// 
+			this.elementSelectControl1.Location = new System.Drawing.Point(6, 5);
+			this.elementSelectControl1.Name = "elementSelectControl1";
+			this.elementSelectControl1.Size = new System.Drawing.Size(247, 329);
+			this.elementSelectControl1.TabIndex = 41;
 			// 
 			// panel2
 			// 
@@ -406,8 +413,8 @@
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.Controls.Add(this.panel1);
-			this.tabPage3.Controls.Add(this.pcbElementControl1);
+			this.tabPage3.Controls.Add(this.btn_pcbAddElement);
+			this.tabPage3.Controls.Add(this.p_pcbEle);
 			this.tabPage3.Controls.Add(this.btn_pcb_output);
 			this.tabPage3.Controls.Add(this.btn_pcb_input);
 			this.tabPage3.Controls.Add(this.btn_pcb_delete);
@@ -420,13 +427,24 @@
 			this.tabPage3.Text = "PCB板";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
-			// panel1
+			// btn_pcbAddElement
 			// 
-			this.panel1.AutoScroll = true;
-			this.panel1.Location = new System.Drawing.Point(166, 10);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(332, 168);
-			this.panel1.TabIndex = 7;
+			this.btn_pcbAddElement.Location = new System.Drawing.Point(218, 273);
+			this.btn_pcbAddElement.Name = "btn_pcbAddElement";
+			this.btn_pcbAddElement.Size = new System.Drawing.Size(217, 72);
+			this.btn_pcbAddElement.TabIndex = 8;
+			this.btn_pcbAddElement.Text = "添加元件";
+			this.btn_pcbAddElement.UseVisualStyleBackColor = true;
+			this.btn_pcbAddElement.Click += new System.EventHandler(this.btn_pcbAddElement_Click);
+			// 
+			// p_pcbEle
+			// 
+			this.p_pcbEle.AutoScroll = true;
+			this.p_pcbEle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.p_pcbEle.Location = new System.Drawing.Point(166, 10);
+			this.p_pcbEle.Name = "p_pcbEle";
+			this.p_pcbEle.Size = new System.Drawing.Size(332, 221);
+			this.p_pcbEle.TabIndex = 7;
 			// 
 			// btn_pcb_output
 			// 
@@ -474,23 +492,7 @@
 			this.lb_pcb.Name = "lb_pcb";
 			this.lb_pcb.Size = new System.Drawing.Size(151, 292);
 			this.lb_pcb.TabIndex = 0;
-			// 
-			// elementSelectControl1
-			// 
-			this.elementSelectControl1.Location = new System.Drawing.Point(6, 5);
-			this.elementSelectControl1.Name = "elementSelectControl1";
-			this.elementSelectControl1.Size = new System.Drawing.Size(247, 329);
-			this.elementSelectControl1.TabIndex = 41;
-			// 
-			// pcbElementControl1
-			// 
-			this.pcbElementControl1.Location = new System.Drawing.Point(166, 237);
-			this.pcbElementControl1.Name = "pcbElementControl1";
-			this.pcbElementControl1.Pcount = null;
-			this.pcbElementControl1.Pname = null;
-			this.pcbElementControl1.Pweihao = null;
-			this.pcbElementControl1.Size = new System.Drawing.Size(332, 29);
-			this.pcbElementControl1.TabIndex = 6;
+			this.lb_pcb.SelectedValueChanged += new System.EventHandler(this.lb_pcb_SelectedValueChanged);
 			// 
 			// Form1
 			// 
@@ -554,9 +556,9 @@
 		private System.Windows.Forms.Button btn_pcb_input;
 		private System.Windows.Forms.Button btn_pcb_delete;
 		private System.Windows.Forms.Button btn_pcb_add;
-		private PCBElementControl pcbElementControl1;
-		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Panel p_pcbEle;
+		private System.Windows.Forms.Button btn_pcbAddElement;
 	}
 }
 
