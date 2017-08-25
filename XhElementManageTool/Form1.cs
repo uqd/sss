@@ -525,8 +525,9 @@ namespace XhElementManageTool
                              + "'" + "未知" + "',"
                              + "'" + "" + "'"
                              + ")");
+                //TODO 写到这里
                 ExeSQLString("insert into Info (type,info,modifyDate) values ('element','新增元件" + eName
-                             + " 当前价格:"+ePrice+"','" + eModifyDate + "')");
+                             + " 当前价格:"+ePrice+"',新增数量,'" + eModifyDate + "')");
             }
             _conn.Close();
             MessageBox.Show("导入成功");
