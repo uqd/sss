@@ -32,8 +32,10 @@ namespace XhElementManageTool
 		//可调用的被选择元件名字
 		public string SelectElementName = "";
 
-        public ElementSelectControl()
+        public ElementSelectControl(OleDbConnection conn)
         {
+            _conn = conn;
+            
             InitializeComponent();
 
             Init();
@@ -42,9 +44,6 @@ namespace XhElementManageTool
         //初始化
         private void Init()
         {
-            _conn = new OleDbConnection("Provider = Microsoft.Jet.OLEDB.4.0; Data Source = " +
-                                        "D:\\Code\\Rider\\XhElementManageTool\\XhElementManageTool\\XhElementManageLib.mdb");
-
             //载入comobox的数据情况
             LoadComboBoxData();
 

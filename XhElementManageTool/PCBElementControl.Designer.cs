@@ -49,12 +49,14 @@
 			this.tb_weihao.Name = "tb_weihao";
 			this.tb_weihao.Size = new System.Drawing.Size(40, 21);
 			this.tb_weihao.TabIndex = 1;
+			this.tb_weihao.Enabled = false;
 			// 
 			// tb_count
 			// 
 			this.tb_count.Location = new System.Drawing.Point(210, 4);
 			this.tb_count.Name = "tb_count";
 			this.tb_count.Size = new System.Drawing.Size(40, 21);
+			this.tb_count.Enabled = false;
 			this.tb_count.TabIndex = 2;
 			this.tb_count.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_count_KeyPress);
 			// 
