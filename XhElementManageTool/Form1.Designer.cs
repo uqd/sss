@@ -37,7 +37,7 @@
 			this.btn_save = new System.Windows.Forms.Button();
 			this.btn_delete = new System.Windows.Forms.Button();
 			this.btn_add = new System.Windows.Forms.Button();
-			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl(_conn);
+			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl(rwh);
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.tb_modifyDate = new System.Windows.Forms.TextBox();
 			this.tb_No = new System.Windows.Forms.TextBox();

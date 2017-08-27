@@ -15,7 +15,7 @@ namespace XhElementManageTool
         //其中需要一个判断符号和数据。
         //符号：0为保存，1为删除，
         //string[]中，保存为长度3（eName,eWeihao,eCount)，删除时为长度1（eName),
-        public delegate void ClickControlHandler(int fu,string[] data);
+        public delegate void ClickControlHandler(int doWhat,string[] data);
 
         //然后是一个event
         public event ClickControlHandler ClickEvent;

@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl(_conn);
+			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl(rwh);
 			this.btn_no = new System.Windows.Forms.Button();
 			this.btn_yes = new System.Windows.Forms.Button();
 			this.SuspendLayout();

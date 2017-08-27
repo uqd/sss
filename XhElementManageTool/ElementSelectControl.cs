@@ -14,28 +14,27 @@ namespace XhElementManageTool
 {
     public partial class ElementSelectControl : UserControl
     {
+        private readonly AmumuReadAndWriteHelper rwh;
+
         //公用的控件
-        private OleDbConnection _conn;
-
-        private OleDbCommand _cmd;
-
         private bool isReay = false;
 
         //这是用来公用的，其他的外部方法也是可以用的
         public List<List<string>> SelectList = new List<List<string>>();
-        
+
         //申明一个委托
         public delegate void SelectValueChangeHandler(ElementStruct.Element element);
+
         //同时申明一个事件
         public event SelectValueChangeHandler SelectChange;
 
-		//可调用的被选择元件名字
-		public string SelectElementName = "";
+        //可调用的被选择元件名字
+        public string SelectElementName = "";
 
-        public ElementSelectControl(OleDbConnection conn)
+        public ElementSelectControl(AmumuReadAndWriteHelper rwh)
         {
-            _conn = conn;
-            
+            this.rwh = rwh;
+
             InitializeComponent();
 
             Init();
@@ -52,34 +51,32 @@ namespace XhElementManageTool
             SelectSettingChange(null, null);
         }
 
-        private void LoadComboBoxData()
+        public void LoadComboBoxData()
         {
             string[] ooo = {"eType", "eFacturer", "ePosition"};
             foreach (var o in ooo)
             {
-                _cmd = _conn.CreateCommand();
-                _cmd.CommandText = "select " + o + " from Element group by " + o;
-                _conn.Open();
-                var dr = _cmd.ExecuteReader();
+                var dr = rwh.OpenSelectSqlStr("select " + o + " from Element group by " + o);
                 var list = new List<string> {"全部"};
                 while (dr != null && dr.Read())
                 {
                     list.Add((string) dr[0]);
                 }
                 SelectList.Add(list);
-                _cmd.Dispose();
-                _conn.Close();
             }
             cb_type.DataSource = SelectList[0];
             cb_facturer.DataSource = SelectList[1];
             cb_position.DataSource = SelectList[2];
+            cb_type.Update();
+            cb_facturer.Update();
+            cb_position.Update();
         }
 
-		//外部提示更新控件
-		public void UpdateValue()
-		{
-			SelectSettingChange(null, null);
-		}
+        //外部提示更新控件
+        public void UpdateValue()
+        {
+            SelectSettingChange(null, null);
+        }
 
         private void SelectSettingChange(object sender, EventArgs e)
         {
@@ -95,82 +92,72 @@ namespace XhElementManageTool
             var strSqlWhere = " where eType like " + strType + " and eFacturer like " + strfacturer +
                               " and ePosition like " + strPosition;
 
-            _cmd = _conn.CreateCommand();
-            _cmd.CommandText = "select eName " + strNo + strModel + strPackage + " from Element " + strSqlWhere;
-            _conn.Open();
-            LoadData(_conn, _cmd);
+            var dr = rwh.OpenSelectSqlStr("select eName " + strNo + strModel + strPackage + " from Element " +
+                                          strSqlWhere);
+            LoadData(dr);
         }
 
-        private void LoadData(OleDbConnection conn, OleDbCommand cmd)
+        private void LoadData(IDataReader dr)
         {
-            OleDbDataReader dr = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            if (dr.HasRows)
+            if (dr == null)
             {
-                for (int i = 0; i < dr.FieldCount; i++)
-                {
-                    dt.Columns.Add(dr.GetName(i));
-                }
-                dt.Rows.Clear();
+                dataGridView_select.DataSource = null;
+                return;
             }
+            var dt = new DataTable();
+            
+            for (var i = 0; i < dr.FieldCount; i++)
+            {
+                dt.Columns.Add(dr.GetName(i));
+            }
+            
             while (dr.Read())
             {
-                DataRow row = dt.NewRow(); //在这里就根据dt的columns确定了数组的长度。
-                for (int i = 0; i < dr.FieldCount; i++)
+                var row = dt.NewRow(); //在这里就根据dt的columns确定了数组的长度。
+                for (var i = 0; i < dr.FieldCount; i++)
                 {
                     row[i] = dr[i];
                 }
                 dt.Rows.Add(row);
             }
-            cmd.Dispose();
-            conn.Close();
             dataGridView_select.DataSource = dt;
         }
 
-		int k = 0;
+        int k = 0;
 
-		//加载的时候会执行两次，不知道为什么，不管了
-		private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
+        //加载的时候会执行两次，不知道为什么，不管了
+        private void dataGridView_select_SelectionChanged(object sender, EventArgs e)
         {
-			k++;
-			Console.Out.WriteLine("第一页: " + k);
+            k++;
+            Console.Out.WriteLine("第一页: " + k);
 
             if (dataGridView_select.SelectedCells.Count == 0) return;
             //获取型号名字
             var eName = dataGridView_select.SelectedCells[0].Value.ToString();
-			SelectElementName = eName;
-            if (_conn.State == ConnectionState.Open) _conn.Close();
-            _cmd = _conn.CreateCommand();
-            _cmd.CommandText = "select * from Element where eName = '" + eName + "'";
-            _conn.Open();
-            var dr = _cmd.ExecuteReader();
-            if (dr == null) return;
-            if (!dr.HasRows)
+            SelectElementName = eName;
+            var dr = rwh.OpenSelectSqlStr("select * from Element where eName = '" + eName + "'");
+            if (dr == null)
             {
                 MessageBox.Show("异常，未找到名称为 " + eName + " 项");
+                return;
             }
-            else
-            {
-                dr.Read();
-				var element = new ElementStruct.Element(
-                    dr["eNo"].ToString(),
-                    dr["eName"].ToString(),
-                    dr["eType"].ToString(),
-                    dr["eFacturer"].ToString(),
-                    dr["eModel"].ToString(),
-                    dr["ePackage"].ToString(),
-                    dr["ePrice"].ToString(),
-                    dr["eCount"].ToString(),
-                    dr["eCreateDate"].ToString(),
-                    dr["eModifyDate"].ToString(),
-                    dr["ePosition"].ToString(),
-                    dr["eOtherInfo"].ToString()
-                );
-                //反正就是把element传出去了
-                SelectChange?.Invoke(element);
-            }
-            _cmd.Dispose();
-            _conn.Close();
+            dr.Read();
+            var element = new ElementStruct.Element(
+                dr["eNo"].ToString(),
+                dr["eName"].ToString(),
+                dr["eType"].ToString(),
+                dr["eFacturer"].ToString(),
+                dr["eModel"].ToString(),
+                dr["ePackage"].ToString(),
+                dr["ePrice"].ToString(),
+                dr["eCount"].ToString(),
+                dr["eCreateDate"].ToString(),
+                dr["eModifyDate"].ToString(),
+                dr["ePosition"].ToString(),
+                dr["eOtherInfo"].ToString()
+            );
+            //反正就是把element传出去了
+            SelectChange?.Invoke(element);
         }
     }
 }
