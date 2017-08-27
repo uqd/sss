@@ -37,8 +37,8 @@
 			this.btn_save = new System.Windows.Forms.Button();
 			this.btn_delete = new System.Windows.Forms.Button();
 			this.btn_add = new System.Windows.Forms.Button();
-			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl(rwh);
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.f_cb_type = new System.Windows.Forms.ComboBox();
 			this.tb_modifyDate = new System.Windows.Forms.TextBox();
 			this.tb_No = new System.Windows.Forms.TextBox();
 			this.tb_createDate = new System.Windows.Forms.TextBox();
@@ -47,11 +47,10 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.cb_position = new System.Windows.Forms.ComboBox();
+			this.f_cb_position = new System.Windows.Forms.ComboBox();
 			this.label9 = new System.Windows.Forms.Label();
-			this.cb_facturer = new System.Windows.Forms.ComboBox();
+			this.f_cb_facturer = new System.Windows.Forms.ComboBox();
 			this.label10 = new System.Windows.Forms.Label();
-			this.cb_type = new System.Windows.Forms.ComboBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.tb_otherInfo = new System.Windows.Forms.TextBox();
 			this.label12 = new System.Windows.Forms.Label();
@@ -65,6 +64,12 @@
 			this.tb_Name = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.label18 = new System.Windows.Forms.Label();
+			this.label17 = new System.Windows.Forms.Label();
+			this.label16 = new System.Windows.Forms.Label();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.btn_pcbAddElement = new System.Windows.Forms.Button();
 			this.p_pcbEle = new System.Windows.Forms.Panel();
 			this.btn_pcb_output = new System.Windows.Forms.Button();
@@ -72,6 +77,11 @@
 			this.btn_pcb_delete = new System.Windows.Forms.Button();
 			this.btn_pcb_add = new System.Windows.Forms.Button();
 			this.lb_pcb = new System.Windows.Forms.ListBox();
+			this.tb_pcb_info = new System.Windows.Forms.TextBox();
+			this.label19 = new System.Windows.Forms.Label();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label21 = new System.Windows.Forms.Label();
+			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -121,12 +131,12 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.elementSelectControl1);
 			this.tabPage1.Controls.Add(this.btn_element_output);
 			this.tabPage1.Controls.Add(this.btn_element_input);
 			this.tabPage1.Controls.Add(this.btn_save);
 			this.tabPage1.Controls.Add(this.btn_delete);
 			this.tabPage1.Controls.Add(this.btn_add);
-			this.tabPage1.Controls.Add(this.elementSelectControl1);
 			this.tabPage1.Controls.Add(this.panel2);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
@@ -185,15 +195,9 @@
 			this.btn_add.UseVisualStyleBackColor = true;
 			this.btn_add.Click += new System.EventHandler(this.Btn_Click);
 			// 
-			// elementSelectControl1
-			// 
-			this.elementSelectControl1.Location = new System.Drawing.Point(6, 5);
-			this.elementSelectControl1.Name = "elementSelectControl1";
-			this.elementSelectControl1.Size = new System.Drawing.Size(247, 329);
-			this.elementSelectControl1.TabIndex = 41;
-			// 
 			// panel2
 			// 
+			this.panel2.Controls.Add(this.f_cb_type);
 			this.panel2.Controls.Add(this.tb_modifyDate);
 			this.panel2.Controls.Add(this.tb_No);
 			this.panel2.Controls.Add(this.tb_createDate);
@@ -202,11 +206,10 @@
 			this.panel2.Controls.Add(this.label6);
 			this.panel2.Controls.Add(this.label7);
 			this.panel2.Controls.Add(this.label8);
-			this.panel2.Controls.Add(this.cb_position);
+			this.panel2.Controls.Add(this.f_cb_position);
 			this.panel2.Controls.Add(this.label9);
-			this.panel2.Controls.Add(this.cb_facturer);
+			this.panel2.Controls.Add(this.f_cb_facturer);
 			this.panel2.Controls.Add(this.label10);
-			this.panel2.Controls.Add(this.cb_type);
 			this.panel2.Controls.Add(this.label11);
 			this.panel2.Controls.Add(this.tb_otherInfo);
 			this.panel2.Controls.Add(this.label12);
@@ -222,6 +225,14 @@
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(247, 350);
 			this.panel2.TabIndex = 48;
+			// 
+			// f_cb_type
+			// 
+			this.f_cb_type.FormattingEnabled = true;
+			this.f_cb_type.Location = new System.Drawing.Point(87, 61);
+			this.f_cb_type.Name = "f_cb_type";
+			this.f_cb_type.Size = new System.Drawing.Size(154, 20);
+			this.f_cb_type.TabIndex = 48;
 			// 
 			// tb_modifyDate
 			// 
@@ -291,13 +302,13 @@
 			this.label8.TabIndex = 16;
 			this.label8.Text = "型号";
 			// 
-			// cb_position
+			// f_cb_position
 			// 
-			this.cb_position.FormattingEnabled = true;
-			this.cb_position.Location = new System.Drawing.Point(87, 235);
-			this.cb_position.Name = "cb_position";
-			this.cb_position.Size = new System.Drawing.Size(154, 20);
-			this.cb_position.TabIndex = 40;
+			this.f_cb_position.FormattingEnabled = true;
+			this.f_cb_position.Location = new System.Drawing.Point(87, 235);
+			this.f_cb_position.Name = "f_cb_position";
+			this.f_cb_position.Size = new System.Drawing.Size(154, 20);
+			this.f_cb_position.TabIndex = 40;
 			// 
 			// label9
 			// 
@@ -308,13 +319,13 @@
 			this.label9.TabIndex = 17;
 			this.label9.Text = "封装";
 			// 
-			// cb_facturer
+			// f_cb_facturer
 			// 
-			this.cb_facturer.FormattingEnabled = true;
-			this.cb_facturer.Location = new System.Drawing.Point(87, 91);
-			this.cb_facturer.Name = "cb_facturer";
-			this.cb_facturer.Size = new System.Drawing.Size(154, 20);
-			this.cb_facturer.TabIndex = 39;
+			this.f_cb_facturer.FormattingEnabled = true;
+			this.f_cb_facturer.Location = new System.Drawing.Point(87, 91);
+			this.f_cb_facturer.Name = "f_cb_facturer";
+			this.f_cb_facturer.Size = new System.Drawing.Size(154, 20);
+			this.f_cb_facturer.TabIndex = 55;
 			// 
 			// label10
 			// 
@@ -324,14 +335,6 @@
 			this.label10.Size = new System.Drawing.Size(29, 12);
 			this.label10.TabIndex = 18;
 			this.label10.Text = "单价";
-			// 
-			// cb_type
-			// 
-			this.cb_type.FormattingEnabled = true;
-			this.cb_type.Location = new System.Drawing.Point(87, 63);
-			this.cb_type.Name = "cb_type";
-			this.cb_type.Size = new System.Drawing.Size(154, 20);
-			this.cb_type.TabIndex = 38;
 			// 
 			// label11
 			// 
@@ -436,6 +439,16 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.label21);
+			this.tabPage3.Controls.Add(this.label20);
+			this.tabPage3.Controls.Add(this.label19);
+			this.tabPage3.Controls.Add(this.tb_pcb_info);
+			this.tabPage3.Controls.Add(this.label18);
+			this.tabPage3.Controls.Add(this.label17);
+			this.tabPage3.Controls.Add(this.label16);
+			this.tabPage3.Controls.Add(this.label3);
+			this.tabPage3.Controls.Add(this.label2);
+			this.tabPage3.Controls.Add(this.label1);
 			this.tabPage3.Controls.Add(this.btn_pcbAddElement);
 			this.tabPage3.Controls.Add(this.p_pcbEle);
 			this.tabPage3.Controls.Add(this.btn_pcb_output);
@@ -450,11 +463,65 @@
 			this.tabPage3.Text = "PCB板";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
+			// label18
+			// 
+			this.label18.AutoSize = true;
+			this.label18.Location = new System.Drawing.Point(8, 10);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(47, 12);
+			this.label18.TabIndex = 14;
+			this.label18.Text = "PCB名称";
+			// 
+			// label17
+			// 
+			this.label17.AutoSize = true;
+			this.label17.Location = new System.Drawing.Point(454, 10);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(17, 12);
+			this.label17.TabIndex = 13;
+			this.label17.Text = "删";
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Location = new System.Drawing.Point(428, 10);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(17, 12);
+			this.label16.TabIndex = 12;
+			this.label16.Text = "改";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(316, 10);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(29, 12);
+			this.label3.TabIndex = 11;
+			this.label3.Text = "数量";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(277, 10);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(29, 12);
+			this.label2.TabIndex = 10;
+			this.label2.Text = "位号";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(113, 10);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(53, 12);
+			this.label1.TabIndex = 9;
+			this.label1.Text = "元件名称";
+			// 
 			// btn_pcbAddElement
 			// 
-			this.btn_pcbAddElement.Location = new System.Drawing.Point(166, 360);
+			this.btn_pcbAddElement.Location = new System.Drawing.Point(112, 360);
 			this.btn_pcbAddElement.Name = "btn_pcbAddElement";
-			this.btn_pcbAddElement.Size = new System.Drawing.Size(332, 23);
+			this.btn_pcbAddElement.Size = new System.Drawing.Size(386, 23);
 			this.btn_pcbAddElement.TabIndex = 8;
 			this.btn_pcbAddElement.Text = "添加元件";
 			this.btn_pcbAddElement.UseVisualStyleBackColor = true;
@@ -464,16 +531,16 @@
 			// 
 			this.p_pcbEle.AutoScroll = true;
 			this.p_pcbEle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.p_pcbEle.Location = new System.Drawing.Point(166, 10);
+			this.p_pcbEle.Location = new System.Drawing.Point(112, 25);
 			this.p_pcbEle.Name = "p_pcbEle";
-			this.p_pcbEle.Size = new System.Drawing.Size(332, 344);
+			this.p_pcbEle.Size = new System.Drawing.Size(386, 304);
 			this.p_pcbEle.TabIndex = 7;
 			// 
 			// btn_pcb_output
 			// 
-			this.btn_pcb_output.Location = new System.Drawing.Point(84, 360);
+			this.btn_pcb_output.Location = new System.Drawing.Point(8, 331);
 			this.btn_pcb_output.Name = "btn_pcb_output";
-			this.btn_pcb_output.Size = new System.Drawing.Size(75, 23);
+			this.btn_pcb_output.Size = new System.Drawing.Size(98, 23);
 			this.btn_pcb_output.TabIndex = 5;
 			this.btn_pcb_output.Text = "导出";
 			this.btn_pcb_output.UseVisualStyleBackColor = true;
@@ -482,16 +549,16 @@
 			// 
 			this.btn_pcb_input.Location = new System.Drawing.Point(8, 360);
 			this.btn_pcb_input.Name = "btn_pcb_input";
-			this.btn_pcb_input.Size = new System.Drawing.Size(75, 23);
+			this.btn_pcb_input.Size = new System.Drawing.Size(98, 23);
 			this.btn_pcb_input.TabIndex = 4;
 			this.btn_pcb_input.Text = "导入";
 			this.btn_pcb_input.UseVisualStyleBackColor = true;
 			// 
 			// btn_pcb_delete
 			// 
-			this.btn_pcb_delete.Location = new System.Drawing.Point(84, 331);
+			this.btn_pcb_delete.Location = new System.Drawing.Point(8, 302);
 			this.btn_pcb_delete.Name = "btn_pcb_delete";
-			this.btn_pcb_delete.Size = new System.Drawing.Size(75, 23);
+			this.btn_pcb_delete.Size = new System.Drawing.Size(98, 23);
 			this.btn_pcb_delete.TabIndex = 3;
 			this.btn_pcb_delete.Text = "删除";
 			this.btn_pcb_delete.UseVisualStyleBackColor = true;
@@ -499,9 +566,9 @@
 			// 
 			// btn_pcb_add
 			// 
-			this.btn_pcb_add.Location = new System.Drawing.Point(8, 331);
+			this.btn_pcb_add.Location = new System.Drawing.Point(8, 273);
 			this.btn_pcb_add.Name = "btn_pcb_add";
-			this.btn_pcb_add.Size = new System.Drawing.Size(75, 23);
+			this.btn_pcb_add.Size = new System.Drawing.Size(98, 23);
 			this.btn_pcb_add.TabIndex = 2;
 			this.btn_pcb_add.Text = "新增";
 			this.btn_pcb_add.UseVisualStyleBackColor = true;
@@ -511,11 +578,54 @@
 			// 
 			this.lb_pcb.FormattingEnabled = true;
 			this.lb_pcb.ItemHeight = 12;
-			this.lb_pcb.Location = new System.Drawing.Point(8, 10);
+			this.lb_pcb.Location = new System.Drawing.Point(8, 25);
 			this.lb_pcb.Name = "lb_pcb";
-			this.lb_pcb.Size = new System.Drawing.Size(151, 316);
+			this.lb_pcb.Size = new System.Drawing.Size(98, 244);
 			this.lb_pcb.TabIndex = 0;
 			this.lb_pcb.SelectedValueChanged += new System.EventHandler(this.lb_pcb_SelectedValueChanged);
+			// 
+			// tb_pcb_info
+			// 
+			this.tb_pcb_info.Enabled = false;
+			this.tb_pcb_info.Location = new System.Drawing.Point(151, 331);
+			this.tb_pcb_info.Multiline = true;
+			this.tb_pcb_info.Name = "tb_pcb_info";
+			this.tb_pcb_info.Size = new System.Drawing.Size(347, 25);
+			this.tb_pcb_info.TabIndex = 15;
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(110, 336);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(35, 12);
+			this.label19.TabIndex = 16;
+			this.label19.Text = "备注:";
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.Location = new System.Drawing.Point(354, 10);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(29, 12);
+			this.label20.TabIndex = 17;
+			this.label20.Text = "单价";
+			// 
+			// label21
+			// 
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(390, 10);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(29, 12);
+			this.label21.TabIndex = 18;
+			this.label21.Text = "总价";
+			// 
+			// elementSelectControl1
+			// 
+			this.elementSelectControl1.Location = new System.Drawing.Point(6, 6);
+			this.elementSelectControl1.Name = "elementSelectControl1";
+			this.elementSelectControl1.Size = new System.Drawing.Size(236, 323);
+			this.elementSelectControl1.TabIndex = 51;
 			// 
 			// Form1
 			// 
@@ -534,6 +644,7 @@
 			this.panel2.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -565,10 +676,8 @@
 		private System.Windows.Forms.TextBox tb_model;
 		private System.Windows.Forms.TextBox tb_Name;
 		private System.Windows.Forms.TextBox tb_No;
-		private System.Windows.Forms.ComboBox cb_type;
-		private System.Windows.Forms.ComboBox cb_position;
-		private System.Windows.Forms.ComboBox cb_facturer;
-		private ElementSelectControl elementSelectControl1;
+		private System.Windows.Forms.ComboBox f_cb_position;
+		private System.Windows.Forms.ComboBox f_cb_facturer;
 		private System.Windows.Forms.Button btn_add;
 		private System.Windows.Forms.Button btn_save;
 		private System.Windows.Forms.Button btn_delete;
@@ -584,6 +693,18 @@
 		private System.Windows.Forms.Button btn_pcbAddElement;
 		private System.Windows.Forms.Button btn_element_input;
 		private System.Windows.Forms.Button btn_element_output;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private ElementSelectControl elementSelectControl1;
+		private System.Windows.Forms.ComboBox f_cb_type;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.TextBox tb_pcb_info;
+		private System.Windows.Forms.Label label21;
+		private System.Windows.Forms.Label label20;
 	}
 }
 

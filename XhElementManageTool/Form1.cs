@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace XhElementManageTool
@@ -36,6 +37,8 @@ namespace XhElementManageTool
 
             InitializeComponent();
 
+            elementSelectControl1.setRwh(rwh);
+            elementSelectControl1.Init();
             //绑定委托与事件,也就是同时更新Tab1中的Element数据
             elementSelectControl1.SelectChange += SelectValueChange;
 
@@ -60,8 +63,9 @@ namespace XhElementManageTool
                 MessageBox.Show("此元件已添加");
                 return;
             }
+            rwh.Close();
             rwh.RunSqlStr(" insert into " + pName + " (eName ,eWeihao,eCount) "
-                          + "values( '" + eName + "', '请输入',0)");
+                          + "values( '" + eName + "', '未知',0)");
             UpDatePcbElementPanel();
         }
 
@@ -70,7 +74,7 @@ namespace XhElementManageTool
             var dr = rwh.OpenSelectSqlStr("select * from Element");
             if (dr == null) return;
             var dt = new DataTable();
-            for (int i = 0; i < dr.FieldCount; i++)
+            for (var i = 0; i < dr.FieldCount; i++)
             {
                 dt.Columns.Add(dr.GetName(i));
             }
@@ -83,6 +87,7 @@ namespace XhElementManageTool
                 dt.Rows.Add(row);
             }
             dataGridView1.DataSource = dt;
+            rwh.Close();
         }
 
         private void SelectValueChange(ElementStruct.Element element)
@@ -92,15 +97,16 @@ namespace XhElementManageTool
             //将数据设置出去
             tb_No.Text = element.eNo;
             tb_Name.Text = element.eName;
-            cb_type.Text = element.eType;
-            cb_facturer.Text = element.eFacturer;
+            //巨大的bug，死循环
+            f_cb_type.Text = element.eType;
+            f_cb_facturer.Text = element.eFacturer;
+            f_cb_position.Text = element.ePosition;
             tb_model.Text = element.eModel;
             tb_package.Text = element.ePackage;
             tb_price.Text = element.ePrice + "";
             tb_count.Text = element.eCount + "";
             tb_createDate.Text = element.eCreateDate;
             tb_modifyDate.Text = element.eModifDate;
-            cb_position.Text = element.ePosition;
             tb_otherInfo.Text = element.eOtherInfo;
         }
 
@@ -130,11 +136,12 @@ namespace XhElementManageTool
 
             //这就是删除,弹出删除框。
             var result = MessageBox.Show("你确定要删除元件 '" + eName + "' 吗?", "删除", MessageBoxButtons.OKCancel);
-            if ((int) result != 1) return;
+            if (result != DialogResult.OK) return;
             rwh.RunSqlStr("delete from Element where eName = '" + eName + "'");
             MessageBox.Show("删除成功");
             //需要刷新界面
             elementSelectControl1.UpdateValue();
+            elementSelectControl1.LoadComboBoxData();
         }
 
         private void SaveElement()
@@ -157,77 +164,75 @@ namespace XhElementManageTool
             {
                 //这就是新增,弹出新增框。
                 var result = MessageBox.Show("你确定要新增一个新元件'" + eName + "'?", "新增", MessageBoxButtons.OKCancel);
-                if ((int) result == 1)
-                {
-                    rwh.RunSqlStr("insert into Element "
-                                  + "("
-                                  + "eNo,"
-                                  + "eName,"
-                                  + "eType,"
-                                  + "eFacturer,"
-                                  + "eModel,"
-                                  + "ePackage,"
-                                  + "ePrice,"
-                                  + "eCount,"
-                                  + "eCreateDate,"
-                                  + "eModifyDate,"
-                                  + "ePosition,"
-                                  + "eOtherInfo"
-                                  + ") "
-                                  + "values("
-                                  + "'" + tb_No.Text + "',"
-                                  + "'" + tb_Name.Text + "',"
-                                  + "'" + cb_type.Text + "',"
-                                  + "'" + cb_facturer.Text + "',"
-                                  + "'" + tb_model.Text + "',"
-                                  + "'" + tb_package.Text + "',"
-                                  + "" + tb_price.Text + ","
-                                  + "" + tb_count.Text + ","
-                                  + "'" + DateTime.Now + "',"
-                                  + "'" + DateTime.Now + "',"
-                                  + "'" + cb_position.Text + "',"
-                                  + "'" + tb_otherInfo.Text + "'"
-                                  + ")");
-                    MessageBox.Show("保存成功");
-                }
+                if (result != DialogResult.OK) return;
+
+                rwh.RunSqlStr("insert into Element "
+                              + "("
+                              + "eNo,"
+                              + "eName,"
+                              + "eType,"
+                              + "eFacturer,"
+                              + "eModel,"
+                              + "ePackage,"
+                              + "ePrice,"
+                              + "eCount,"
+                              + "eCreateDate,"
+                              + "eModifyDate,"
+                              + "ePosition,"
+                              + "eOtherInfo"
+                              + ") "
+                              + "values("
+                              + "'" + tb_No.Text + "',"
+                              + "'" + tb_Name.Text + "',"
+                              + "'" + f_cb_type.Text + "',"
+                              + "'" + f_cb_facturer.Text + "',"
+                              + "'" + tb_model.Text + "',"
+                              + "'" + tb_package.Text + "',"
+                              + "" + tb_price.Text + ","
+                              + "" + tb_count.Text + ","
+                              + "'" + DateTime.Now + "',"
+                              + "'" + DateTime.Now + "',"
+                              + "'" + f_cb_position.Text + "',"
+                              + "'" + tb_otherInfo.Text + "'"
+                              + ")");
+                MessageBox.Show("保存成功");
             }
             else
             {
                 //这就是修改 ,对于结果来说,1是确定,2是取消
                 var result = MessageBox.Show("你确定要修改名为'" + eName + "'资料?", "修改", MessageBoxButtons.OKCancel);
-                if ((int) result == 1)
-                {
-                    rwh.RunSqlStr("update Element set "
-                                  + "eModel="
-                                  + "'" + tb_model.Text + "',"
-                                  + "ePrice="
-                                  + "" + tb_price.Text + ","
-                                  + "eCreateDate="
-                                  + "'" + tb_createDate.Text + "',"
-                                  + "ePosition="
-                                  + "'" + cb_position.Text + "',"
-                                  + "eNo="
-                                  + "'" + tb_No.Text + "',"
-                                  + "eType="
-                                  + "'" + cb_type.Text + "',"
-                                  + "eFacturer="
-                                  + "'" + cb_facturer.Text + "',"
-                                  + "ePackage="
-                                  + "'" + tb_package.Text + "',"
-                                  + "eCount="
-                                  + "" + tb_count.Text + ","
-                                  + "eModifyDate="
-                                  + "'" + DateTime.Now + "',"
-                                  + "eOtherInfo="
-                                  + "'" + tb_otherInfo.Text + "'"
-                                  + " where eName = '" + eName + "'");
-                    MessageBox.Show("修改成功");
-                }
+                if (result != DialogResult.OK) return;
+                rwh.RunSqlStr("update Element set "
+                              + "eModel="
+                              + "'" + tb_model.Text + "',"
+                              + "ePrice="
+                              + "" + tb_price.Text + ","
+                              + "eCreateDate="
+                              + "'" + tb_createDate.Text + "',"
+                              + "ePosition="
+                              + "'" + f_cb_position.Text + "',"
+                              + "eNo="
+                              + "'" + tb_No.Text + "',"
+                              + "eType="
+                              + "'" + f_cb_type.Text + "',"
+                              + "eFacturer="
+                              + "'" + f_cb_facturer.Text + "',"
+                              + "ePackage="
+                              + "'" + tb_package.Text + "',"
+                              + "eCount="
+                              + "" + tb_count.Text + ","
+                              + "eModifyDate="
+                              + "'" + DateTime.Now + "',"
+                              + "eOtherInfo="
+                              + "'" + tb_otherInfo.Text + "'"
+                              + " where eName = '" + eName + "'");
+                MessageBox.Show("修改成功");
             }
             //需要刷新界面
             elementSelectControl1.UpdateValue();
             elementSelectControl1.LoadComboBoxData();
             dr.Dispose();
+            rwh.Close();
         }
 
         //清空元件的属性区域的数据便于许督童鞋输入
@@ -249,13 +254,20 @@ namespace XhElementManageTool
 
         private void SetComboBoxValue()
         {
-            var data = elementSelectControl1.SelectList;
+            var data = new List<List<string>>
+            {
+                new List<string>(elementSelectControl1.SelectList[0]),
+                new List<string>(elementSelectControl1.SelectList[1]),
+                new List<string>(elementSelectControl1.SelectList[2])
+            };
+            //重点，这是深克隆的方法，因为有个奇妙又令人伤心的bug就是多个控件对相同list的引用居然是联动的 ！！！
+            //搞了我一晚上
             data[0].Remove("全部");
             data[1].Remove("全部");
             data[2].Remove("全部");
-            cb_type.DataSource = data[0];
-            cb_facturer.DataSource = data[1];
-            cb_position.DataSource = data[2];
+            f_cb_type.DataSource = data[0];
+            f_cb_facturer.DataSource = data[1];
+            f_cb_position.DataSource = data[2];
         }
 
         //限制输入的只能为数字和小数点
@@ -307,6 +319,7 @@ namespace XhElementManageTool
                 t.Add((string) dr[0]);
             }
             lb_pcb.DataSource = t;
+            rwh.Close();
         }
 
         //删除pcb板子
@@ -341,14 +354,35 @@ namespace XhElementManageTool
             var pName = lb_pcb.SelectedItem.ToString();
             //查找表数据
             var dr = rwh.OpenSelectSqlStr("select * from " + pName);
+            Thread.Sleep(100);
             if (dr == null) return;
+            //TODO 非常诡异
+            //dr.Read()有时true,有时false.
             while (dr.Read())
             {
+                Thread.Sleep(100);
+                //查找是否在元件库中有着这个元件的价格
+                var dr22 = rwh.OpenSelectSqlStr("select ePrice from Element where eName ='" + dr["eName"] + "'");
+                var price = "未知";
+                var zongJia = "未知";
+                if (dr22 != null)
+                {
+                    dr22.Read();
+                    price = dr22[0].ToString();
+                    if (price.Equals("0.0404"))
+                    {
+                        Console.Out.Write("fff");
+                    }
+                    zongJia = (float.Parse(price) * int.Parse(dr["eCount"].ToString())).ToString();
+                    dr22.Dispose();
+                }
                 //构造新的PCBElementControl
                 var pe = new PCBElementControl(
                     dr["eName"].ToString(),
                     dr["eWeihao"].ToString(),
-                    dr["eCount"].ToString())
+                    dr["eCount"].ToString(),
+                    price,
+                    zongJia)
                 {
                     Name = "pe" + s,
                     Location = new Point(0, 30 * s)
@@ -358,6 +392,14 @@ namespace XhElementManageTool
                 //来点委托
                 pe.ClickEvent += EventPcbElement;
             }
+            dr = rwh.OpenSelectSqlStr("select OtherInfo from PCBs where pName ='" + pName + "'");
+            if (dr != null)
+            {
+                dr.Read();
+                tb_pcb_info.Text = dr[0].ToString();
+            }
+            rwh.Close();
+            dr.Dispose();
         }
 
         //操作pcb元件表中的元件
@@ -370,7 +412,7 @@ namespace XhElementManageTool
             if (doWhat == 1)
             {
                 var re = MessageBox.Show("你确定要从pcb中删除名为:'" + datas[0] + "' 的元件?", "", MessageBoxButtons.OKCancel);
-                if ((int) re == 0) return;
+                if (re != DialogResult.OK) return;
                 rwh.RunSqlStr("delete from " + lb_pcb.SelectedItem + " where eName ='" + datas[0] + "'");
                 //TODO 这里可以尝试只更新一个控件而不是全部的
                 UpDatePcbElementPanel();
@@ -422,6 +464,7 @@ namespace XhElementManageTool
                                               + dt.Rows[i][2] + "' and eModel = '" + dt.Rows[i][3] + "'");
                 if (dr != null)
                 {
+                    rwh.Close();
                     //说明已存在,只更新数量和单价,并保存记录
                     rwh.RunSqlStr("update Element set ePrice = " + ePrice + ", eCount+=" + eCount
                                   + "where eNo = '" + dt.Rows[i][1] + "' and eFacturer ='"

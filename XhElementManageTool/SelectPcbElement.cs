@@ -21,6 +21,16 @@ namespace XhElementManageTool
             _f = form1;
             this.rwh = rwh;
             InitializeComponent();
+            //绑定委托
+            elementSelectControl1.setRwh(rwh);
+            elementSelectControl1.Init();
+            elementSelectControl1.DbClickElement += MyDbClick;
+        }
+
+        private void MyDbClick(string ename)
+        {
+            Close();
+            _f.AddEleMentToPcb(ename);
         }
 
         private void btn_no_Click(object sender, EventArgs e)

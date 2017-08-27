@@ -44,6 +44,7 @@ namespace XhElementManageTool
                 label_dl_info2.Text = "此名称已存在";
                 return;
             }
+            rwh.Close();
             //需要在PCBs表中添加
             //这就是新的
             rwh.RunSqlStr("insert into PCBs "

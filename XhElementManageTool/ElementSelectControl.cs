@@ -14,34 +14,41 @@ namespace XhElementManageTool
 {
     public partial class ElementSelectControl : UserControl
     {
-        private readonly AmumuReadAndWriteHelper rwh;
+        private AmumuReadAndWriteHelper rwh;
 
         //公用的控件
         private bool isReay = false;
 
         //这是用来公用的，其他的外部方法也是可以用的
-        public List<List<string>> SelectList = new List<List<string>>();
+        public List<List<string>> SelectList;
 
-        //申明一个委托
+        //申明一个委托，这是代表选择的项改变了
         public delegate void SelectValueChangeHandler(ElementStruct.Element element);
 
         //同时申明一个事件
         public event SelectValueChangeHandler SelectChange;
 
+        //同样是委托，这是代表双击
+        public delegate void DBClickElementHandler(string eName);
+
+        //声明事件
+        public event DBClickElementHandler DbClickElement;
+
         //可调用的被选择元件名字
         public string SelectElementName = "";
 
-        public ElementSelectControl(AmumuReadAndWriteHelper rwh)
+        public ElementSelectControl()
+        {
+            InitializeComponent();
+        }
+
+        public void setRwh(AmumuReadAndWriteHelper rwh)
         {
             this.rwh = rwh;
-
-            InitializeComponent();
-
-            Init();
         }
 
         //初始化
-        private void Init()
+        public void Init()
         {
             //载入comobox的数据情况
             LoadComboBoxData();
@@ -54,9 +61,10 @@ namespace XhElementManageTool
         public void LoadComboBoxData()
         {
             string[] ooo = {"eType", "eFacturer", "ePosition"};
+            SelectList = new List<List<string>>();
             foreach (var o in ooo)
             {
-                var dr = rwh.OpenSelectSqlStr("select " + o + " from Element group by " + o);
+                var dr = rwh.OpenSelectSqlStr("select " + o + " from Element group by " + o + " order by " + o);
                 var list = new List<string> {"全部"};
                 while (dr != null && dr.Read())
                 {
@@ -70,6 +78,7 @@ namespace XhElementManageTool
             cb_type.Update();
             cb_facturer.Update();
             cb_position.Update();
+            rwh.Close();
         }
 
         //外部提示更新控件
@@ -105,12 +114,12 @@ namespace XhElementManageTool
                 return;
             }
             var dt = new DataTable();
-            
+
             for (var i = 0; i < dr.FieldCount; i++)
             {
                 dt.Columns.Add(dr.GetName(i));
             }
-            
+
             while (dr.Read())
             {
                 var row = dt.NewRow(); //在这里就根据dt的columns确定了数组的长度。
@@ -121,6 +130,9 @@ namespace XhElementManageTool
                 dt.Rows.Add(row);
             }
             dataGridView_select.DataSource = dt;
+			dataGridView_select.Columns[0].Width = 100;
+
+			rwh.Close();
         }
 
         int k = 0;
@@ -156,8 +168,14 @@ namespace XhElementManageTool
                 dr["ePosition"].ToString(),
                 dr["eOtherInfo"].ToString()
             );
+            rwh.Close();
             //反正就是把element传出去了
             SelectChange?.Invoke(element);
+        }
+
+        private void dataGridView_select_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DbClickElement?.Invoke(dataGridView_select.SelectedCells[0].Value.ToString());
         }
     }
 }

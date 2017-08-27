@@ -46,7 +46,7 @@
 			this.dataGridView_select.AllowUserToAddRows = false;
 			this.dataGridView_select.AllowUserToDeleteRows = false;
 			this.dataGridView_select.AllowUserToOrderColumns = true;
-			this.dataGridView_select.AllowUserToResizeRows = false;
+			this.dataGridView_select.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
 			this.dataGridView_select.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView_select.Location = new System.Drawing.Point(3, 82);
 			this.dataGridView_select.Name = "dataGridView_select";
@@ -56,6 +56,7 @@
 			this.dataGridView_select.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_select.Size = new System.Drawing.Size(235, 243);
 			this.dataGridView_select.TabIndex = 36;
+			this.dataGridView_select.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_select_CellDoubleClick);
 			this.dataGridView_select.SelectionChanged += new System.EventHandler(this.dataGridView_select_SelectionChanged);
 			// 
 			// label2

@@ -8,6 +8,8 @@ namespace XhElementManageTool
         public string eName { get; set; }
         public string eWeihao { get; set; }
         public string eCount { get; set; }
+        public string ePrice { get; set; }
+        public string eZongJia { get; set; }
 
         private bool isModifing = false; //是否正在修改
 
@@ -20,11 +22,13 @@ namespace XhElementManageTool
         //然后是一个event
         public event ClickControlHandler ClickEvent;
 
-        public PCBElementControl(string eName, string eWeihao, string eCount)
+        public PCBElementControl(string eName, string eWeihao, string eCount,string ePrice,string eZongJia)
         {
             this.eName = eName;
             this.eWeihao = eWeihao;
             this.eCount = eCount;
+            this.ePrice = ePrice;
+            this.eZongJia = eZongJia;
             InitializeComponent();
             UpdatePcbElement();
         }
@@ -34,12 +38,19 @@ namespace XhElementManageTool
             tb_name.Text = eName;
             tb_weihao.Text = eWeihao;
             tb_count.Text = eCount;
+            tb_ePrice.Text = ePrice;
+            tb_zongJia.Text = eZongJia;
         }
 
         //设置只能是数字或者删除键
         private void tb_count_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar < 48 || e.KeyChar > 57 || e.KeyChar == 8) e.Handled = true;
+			if (e.KeyChar == 13)
+			{
+				btn_switch_Click(null, null);
+				return;
+			}
+			if (e.KeyChar < 48 || e.KeyChar > 57 || e.KeyChar == 8) e.Handled = true;
         }
 
         //变换也修改的样式
@@ -54,12 +65,15 @@ namespace XhElementManageTool
                 tb_weihao.Enabled = false;
                 tb_count.Enabled = false;
                 btn_switch.Text = "/";
+                if(!tb_ePrice.Text.Equals("未知"))
+                tb_zongJia.Text = (float.Parse(eCount) * int.Parse(eCount)).ToString();
                 isModifing = false;
             }
             else
             {
                 //那就进入修改模式	
                 tb_weihao.Enabled = true;
+                tb_weihao.Focus();
                 tb_count.Enabled = true;
                 btn_switch.Text = "√";
                 isModifing = true;
@@ -72,5 +86,14 @@ namespace XhElementManageTool
             //通过委托把要删除的东西传出去
             ClickEvent?.Invoke(1,new []{eName});
         }
-    }
+
+
+		//添加一个enter确定的按钮
+		private void tb_weihao_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar != 13) return;
+			btn_switch_Click(null, null);
+
+		}
+	}
 }
