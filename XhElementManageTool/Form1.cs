@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,25 +16,26 @@ namespace XhElementManageTool
         //设置测试或者实际的运用环境。 
         private const bool IsLocal = false;
 
+        private string filePath;
+
         public Form1()
         {
             //设置测试或者实际的运用环境。
-            OleDbConnection _conn;
             if (IsLocal)
             {
-                _conn = new OleDbConnection(
+                filePath =
                     "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = "
-                    + AppDomain.CurrentDomain.BaseDirectory + "XhElementManageLib.mdb");
+                    + AppDomain.CurrentDomain.BaseDirectory + "XhElementManageLib.mdb";
             }
             else
             {
-                _conn = new OleDbConnection(
+                filePath =
                     "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = "
-                    + "D:\\Code\\Rider\\XhElementManageTool\\XhElementManageTool\\XhElementManageLib.mdb");
+                    + "D:\\Code\\Rider\\XhElementManageTool\\XhElementManageTool\\XhElementManageLib.mdb";
             }
 
             //初始化一下我们的rwh,以后就可以用了
-            rwh = new AmumuReadAndWriteHelper(_conn);
+            rwh = new AmumuReadAndWriteHelper(filePath);
 
             InitializeComponent();
 
@@ -354,15 +356,21 @@ namespace XhElementManageTool
             var pName = lb_pcb.SelectedItem.ToString();
             //查找表数据
             var dr = rwh.OpenSelectSqlStr("select * from " + pName);
-            Thread.Sleep(100);
             if (dr == null) return;
             //TODO 非常诡异
             //dr.Read()有时true,有时false.
+            //当PCB表中出现在元件表中不存在的元件时，（这种情况是存在的）
+            //pcb表的载入就会截止到这个不存在的元件上而不会继续加载下面还是存在的元件
+            //诡异
+            //还记得那个会联动的list么？？？？？？
+            //我猜测在下一次dr.Read()的时候其实读取的是dr22的Read值。
+            //因为他们都引用过rwh.OpenSelectSqlStr
+            //果然是这样
+            var rwh22 = new AmumuReadAndWriteHelper(filePath);
             while (dr.Read())
             {
-                Thread.Sleep(100);
                 //查找是否在元件库中有着这个元件的价格
-                var dr22 = rwh.OpenSelectSqlStr("select ePrice from Element where eName ='" + dr["eName"] + "'");
+                var dr22 = rwh22.OpenSelectSqlStr("select ePrice from Element where eName ='" + dr["eName"] + "'");
                 var price = "未知";
                 var zongJia = "未知";
                 if (dr22 != null)
@@ -387,10 +395,10 @@ namespace XhElementManageTool
                     Name = "pe" + s,
                     Location = new Point(0, 30 * s)
                 };
-                s++;
                 p_pcbEle.Controls.Add(pe);
                 //来点委托
                 pe.ClickEvent += EventPcbElement;
+                s++;
             }
             dr = rwh.OpenSelectSqlStr("select OtherInfo from PCBs where pName ='" + pName + "'");
             if (dr != null)
@@ -399,6 +407,7 @@ namespace XhElementManageTool
                 tb_pcb_info.Text = dr[0].ToString();
             }
             rwh.Close();
+            rwh22.Close();
             dr.Dispose();
         }
 

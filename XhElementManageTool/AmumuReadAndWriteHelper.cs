@@ -7,16 +7,16 @@ namespace XhElementManageTool
     //阿木木读写助手，简写为rwh
     public class AmumuReadAndWriteHelper
     {
-        private readonly OleDbConnection _conn;
+	    private readonly OleDbConnection _conn;
         private OleDbCommand _cmd;
 	    private int num = 0;
 
         //初始化
-        public AmumuReadAndWriteHelper(OleDbConnection conn)
+        public AmumuReadAndWriteHelper(string path)
         {
-            _conn = conn;
+            _conn = new OleDbConnection(path);
         }
-
+	    
         //打开一个选择的sql语句，返回值是是否有返回值;
         //注意返回null的时候是没必要close的，已经做过了
 	    //如果返回的dr是有读书的，必须要close；
@@ -30,10 +30,9 @@ namespace XhElementManageTool
 				_conn.Close();
 				_conn.Open();
 			}
-            _cmd = _conn.CreateCommand();
-            _cmd.CommandText = s;
+	        
+	        _cmd = new OleDbCommand(s,_conn);
             var dr = _cmd.ExecuteReader();
-//            _conn.Close();
             if (dr != null && dr.HasRows) return dr;
             _conn.Close();
 	        _cmd.Dispose();
