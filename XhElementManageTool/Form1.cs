@@ -350,6 +350,8 @@ namespace XhElementManageTool
         {
             var s = 0;
             Console.Out.WriteLine("第三页 :" + s);
+            var zongCount = 0;
+            float zongJiaGe = 0;
 
             p_pcbEle.Controls.Clear();
             //获得当前选中的pName
@@ -372,16 +374,12 @@ namespace XhElementManageTool
                 //查找是否在元件库中有着这个元件的价格
                 var dr22 = rwh22.OpenSelectSqlStr("select ePrice from Element where eName ='" + dr["eName"] + "'");
                 var price = "未知";
-                var zongJia = "未知";
+                float zongJia = 0;
                 if (dr22 != null)
                 {
                     dr22.Read();
                     price = dr22[0].ToString();
-                    if (price.Equals("0.0404"))
-                    {
-                        Console.Out.Write("fff");
-                    }
-                    zongJia = (float.Parse(price) * int.Parse(dr["eCount"].ToString())).ToString();
+                    zongJia = float.Parse(price) * int.Parse(dr["eCount"].ToString());
                     dr22.Dispose();
                 }
                 //构造新的PCBElementControl
@@ -390,7 +388,7 @@ namespace XhElementManageTool
                     dr["eWeihao"].ToString(),
                     dr["eCount"].ToString(),
                     price,
-                    zongJia)
+                    zongJia.ToString())
                 {
                     Name = "pe" + s,
                     Location = new Point(0, 30 * s)
@@ -398,6 +396,8 @@ namespace XhElementManageTool
                 p_pcbEle.Controls.Add(pe);
                 //来点委托
                 pe.ClickEvent += EventPcbElement;
+                zongCount += int.Parse(dr["eCount"].ToString());
+                zongJiaGe += zongJia;
                 s++;
             }
             dr = rwh.OpenSelectSqlStr("select OtherInfo from PCBs where pName ='" + pName + "'");
@@ -406,6 +406,8 @@ namespace XhElementManageTool
                 dr.Read();
                 tb_pcb_info.Text = dr[0].ToString();
             }
+            l_zongCount.Text = zongCount.ToString();
+            l_zongJiaGe.Text = zongJiaGe.ToString();
             rwh.Close();
             rwh22.Close();
             dr.Dispose();

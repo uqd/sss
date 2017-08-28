@@ -32,6 +32,7 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl();
 			this.btn_element_output = new System.Windows.Forms.Button();
 			this.btn_element_input = new System.Windows.Forms.Button();
 			this.btn_save = new System.Windows.Forms.Button();
@@ -64,6 +65,10 @@
 			this.tb_Name = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.label21 = new System.Windows.Forms.Label();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label19 = new System.Windows.Forms.Label();
+			this.tb_pcb_info = new System.Windows.Forms.TextBox();
 			this.label18 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
@@ -77,11 +82,9 @@
 			this.btn_pcb_delete = new System.Windows.Forms.Button();
 			this.btn_pcb_add = new System.Windows.Forms.Button();
 			this.lb_pcb = new System.Windows.Forms.ListBox();
-			this.tb_pcb_info = new System.Windows.Forms.TextBox();
-			this.label19 = new System.Windows.Forms.Label();
-			this.label20 = new System.Windows.Forms.Label();
-			this.label21 = new System.Windows.Forms.Label();
-			this.elementSelectControl1 = new XhElementManageTool.ElementSelectControl();
+			this.label22 = new System.Windows.Forms.Label();
+			this.l_zongCount = new System.Windows.Forms.Label();
+			this.l_zongJiaGe = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -145,6 +148,13 @@
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "元件库";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// elementSelectControl1
+			// 
+			this.elementSelectControl1.Location = new System.Drawing.Point(6, 6);
+			this.elementSelectControl1.Name = "elementSelectControl1";
+			this.elementSelectControl1.Size = new System.Drawing.Size(236, 323);
+			this.elementSelectControl1.TabIndex = 51;
 			// 
 			// btn_element_output
 			// 
@@ -439,6 +449,9 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.l_zongJiaGe);
+			this.tabPage3.Controls.Add(this.l_zongCount);
+			this.tabPage3.Controls.Add(this.label22);
 			this.tabPage3.Controls.Add(this.label21);
 			this.tabPage3.Controls.Add(this.label20);
 			this.tabPage3.Controls.Add(this.label19);
@@ -462,6 +475,42 @@
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "PCB板";
 			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// label21
+			// 
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(390, 10);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(29, 12);
+			this.label21.TabIndex = 18;
+			this.label21.Text = "总价";
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.Location = new System.Drawing.Point(354, 10);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(29, 12);
+			this.label20.TabIndex = 17;
+			this.label20.Text = "单价";
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Location = new System.Drawing.Point(110, 336);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(35, 12);
+			this.label19.TabIndex = 16;
+			this.label19.Text = "备注:";
+			// 
+			// tb_pcb_info
+			// 
+			this.tb_pcb_info.Enabled = false;
+			this.tb_pcb_info.Location = new System.Drawing.Point(151, 331);
+			this.tb_pcb_info.Multiline = true;
+			this.tb_pcb_info.Name = "tb_pcb_info";
+			this.tb_pcb_info.Size = new System.Drawing.Size(347, 25);
+			this.tb_pcb_info.TabIndex = 15;
 			// 
 			// label18
 			// 
@@ -533,7 +582,7 @@
 			this.p_pcbEle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.p_pcbEle.Location = new System.Drawing.Point(112, 25);
 			this.p_pcbEle.Name = "p_pcbEle";
-			this.p_pcbEle.Size = new System.Drawing.Size(386, 304);
+			this.p_pcbEle.Size = new System.Drawing.Size(386, 271);
 			this.p_pcbEle.TabIndex = 7;
 			// 
 			// btn_pcb_output
@@ -584,48 +633,30 @@
 			this.lb_pcb.TabIndex = 0;
 			this.lb_pcb.SelectedValueChanged += new System.EventHandler(this.lb_pcb_SelectedValueChanged);
 			// 
-			// tb_pcb_info
+			// label22
 			// 
-			this.tb_pcb_info.Enabled = false;
-			this.tb_pcb_info.Location = new System.Drawing.Point(151, 331);
-			this.tb_pcb_info.Multiline = true;
-			this.tb_pcb_info.Name = "tb_pcb_info";
-			this.tb_pcb_info.Size = new System.Drawing.Size(347, 25);
-			this.tb_pcb_info.TabIndex = 15;
+			this.label22.AutoSize = true;
+			this.label22.Location = new System.Drawing.Point(110, 307);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(29, 12);
+			this.label22.TabIndex = 19;
+			this.label22.Text = "统计";
 			// 
-			// label19
+			// l_zongCount
 			// 
-			this.label19.AutoSize = true;
-			this.label19.Location = new System.Drawing.Point(110, 336);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(35, 12);
-			this.label19.TabIndex = 16;
-			this.label19.Text = "备注:";
+			this.l_zongCount.AutoSize = true;
+			this.l_zongCount.Location = new System.Drawing.Point(316, 307);
+			this.l_zongCount.Name = "l_zongCount";
+			this.l_zongCount.Size = new System.Drawing.Size(0, 12);
+			this.l_zongCount.TabIndex = 20;
 			// 
-			// label20
+			// l_zongJiaGe
 			// 
-			this.label20.AutoSize = true;
-			this.label20.Location = new System.Drawing.Point(354, 10);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(29, 12);
-			this.label20.TabIndex = 17;
-			this.label20.Text = "单价";
-			// 
-			// label21
-			// 
-			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(390, 10);
-			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(29, 12);
-			this.label21.TabIndex = 18;
-			this.label21.Text = "总价";
-			// 
-			// elementSelectControl1
-			// 
-			this.elementSelectControl1.Location = new System.Drawing.Point(6, 6);
-			this.elementSelectControl1.Name = "elementSelectControl1";
-			this.elementSelectControl1.Size = new System.Drawing.Size(236, 323);
-			this.elementSelectControl1.TabIndex = 51;
+			this.l_zongJiaGe.AutoSize = true;
+			this.l_zongJiaGe.Location = new System.Drawing.Point(390, 307);
+			this.l_zongJiaGe.Name = "l_zongJiaGe";
+			this.l_zongJiaGe.Size = new System.Drawing.Size(0, 12);
+			this.l_zongJiaGe.TabIndex = 21;
 			// 
 			// Form1
 			// 
@@ -705,6 +736,9 @@
 		private System.Windows.Forms.TextBox tb_pcb_info;
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.Label label20;
+		private System.Windows.Forms.Label l_zongJiaGe;
+		private System.Windows.Forms.Label l_zongCount;
+		private System.Windows.Forms.Label label22;
 	}
 }
 
